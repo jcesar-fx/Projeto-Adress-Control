@@ -4,9 +4,9 @@ Content-Type: application/json
 {
     "cep": "95860000",
     "estado":"RS",
-    "cidade":"Cidade",
+    "cidade":"C4dade",
     "bairro":"Centro", 
-    "numero":"6486", 
+    "numero":"1234567890", 
     "complemento":"complementado"
 }
 
@@ -30,4 +30,18 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3333/adress/499c5220-512a-4bd4-a2be-386f974fc02d
+DELETE http://localhost:3333/adress/4fce7278-e49c-413f-9396-44d03f7d42db
+
+###
+
+POST http://localhost:3333/adress/test
+Content-Type: application/json
+
+{
+    "cep": "95860000",
+    "estado":"RS",
+    "cidade":"Cidade",
+    "bairro":"Centro", 
+    "numero":"1234567890", 
+    "complemento":"complementado"
+}

@@ -1,14 +1,3 @@
-/* import { createServer } from 'node:http'
-
-const server = createServer((request, response) => {
-    console.log("server is up!")
-
-    response.write('testando o watch')
-    return response.end()
-});
-
-server.listen(3000) */
-
 import { fastify } from 'fastify'
 // import { adressMemory } from './database-memory.js' // usar database local na memória, descomente e comente a linha de baixo
 import { adressMemory } from './database-postgres.js'
@@ -17,10 +6,9 @@ const server = fastify()
 
 const database = new adressMemory ()
 
-server.post('/adress', async (request, reply) => {
+/* server.post('/adress/test', async (request, reply) => {
     const { cep, estado, cidade, bairro, numero, complemento} = request.body
-
-    await database.create({
+    const result = await database.returnIfexists({
         cep,
         estado,
         cidade,
@@ -29,8 +17,42 @@ server.post('/adress', async (request, reply) => {
         complemento 
     })
 
-    return reply.status(201).send()
-}); 
+    return result}); // teste que retorna true ou false se existe na DB o endereco */ 
+
+server.post('/adress', async (request, reply) => {
+    const { cep, estado, cidade, bairro, numero, complemento} = request.body
+
+    const result = await database.returnIfexists({
+        cep,
+        estado,
+        cidade,
+        bairro, 
+        numero, 
+        complemento 
+    })
+
+    if (cep.length != 8 
+        || estado.length > 2 
+        || cidade.length > 50 
+        || bairro.length > 50 
+        || numero.length > 10 
+        || complemento.length > 50
+        || result ){
+            return reply.status(500).send()
+    }
+
+    else{
+        await database.create({
+            cep,
+            estado,
+            cidade,
+            bairro, 
+            numero, 
+            complemento 
+        })
+
+        return reply.status(201).send()}
+    });
 
 server.get('/adress', async (request) => {
     const search = request.query.search
@@ -44,7 +66,16 @@ server.put('/adress/:adress_id', async (request, reply) => {
     const adressId = request.params.adress_id
     const { cep, estado, cidade, bairro, numero, complemento} = request.body
     
-    await database.update(adressId, {
+    if (cep.length != 8 
+        || estado.length > 2 
+        || cidade.length > 50 
+        || bairro.length > 50 
+        || numero.length > 10 
+        || complemento.length > 50){
+            return reply.status(500).send()
+    }
+    else{
+        await database.update(adressId, {
         cep,
         estado,
         cidade,
@@ -52,7 +83,7 @@ server.put('/adress/:adress_id', async (request, reply) => {
         numero,
         complemento,
     })
-
+    }
     return reply.status(204).send()
 });
 
