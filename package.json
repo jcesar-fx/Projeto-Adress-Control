@@ -1,0 +1,20 @@
+{
+  "name": "projeto_endereco",
+  "version": "0.0.1",
+  "description": "Projeto da API de relacao de enderecos do nosso projeto, focado em aprender novas technologias",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch index.js"
+  },
+  "author": "Julio Cesar de Oliveira Junior",
+  "license": "ISC",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "fastify": "^5.2.1",
+    "postgres": "^3.4.5"
+  }
+}
